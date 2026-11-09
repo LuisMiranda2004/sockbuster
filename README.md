@@ -2,7 +2,7 @@
 
 Prototipo web y documentación de arquitectura (Paradigma 4+1 de vistas UML) para la tienda de calcetines temáticos Sockbuster.
 
-**Sitio web publicado:** https://TU-USUARIO.github.io/sockbuster/
+**Sitio web publicado:** https://LuisMiranda2004.github.io/sockbuster/
 
 ## Integrantes
 - [Nombre Apellido 1]
