@@ -6,10 +6,7 @@ Prototipo web y documentación de arquitectura (Paradigma 4+1 de vistas UML) par
 
 
 
-
-
 ## Contenido
 - `index.html`: presentación de la marca e integrantes
 - `catalogo.html`: catálogo interactivo con filtros
 - `diagramas.html`: vistas Lógica, Desarrollo, Procesos, Física y Escenarios (Mermaid)
-.
