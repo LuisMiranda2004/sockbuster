@@ -1,0 +1,25 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="style.css"><link href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@400;800&display=swap" rel="stylesheet"><title>Catálogo | Sockbuster</title></head><body>
+<header><a class="logo" href="index.html">SOCKBUSTER</a><nav><a  href="index.html">Inicio</a><a class="on" href="catalogo.html">Catálogo</a><a  href="diagramas.html">Arquitectura UML</a></nav></header>
+<main><h1>Catálogo</h1>
+<div class="filters">
+<label>Colección <select id="cat"><option value="">Todas</option></select></label>
+<label>Buscar <input id="q" type="search" placeholder="Nombre del modelo"></label></div>
+<div class="grid" id="lista" aria-live="polite"></div></main>
+<script>
+const P=[
+{n:"Invasión Alienígena",c:"Ciencia Ficción",e:"👽",p:6990,s:24,t:["S","M","L"]},
+{n:"Robots del Futuro",c:"Ciencia Ficción",e:"🤖",p:6990,s:15,t:["M","L"]},
+{n:"Noche de Terror 85",c:"Terror 80s",e:"🔪",p:7490,s:30,t:["S","M","L"]},
+{n:"Fantasma de Cinta VHS",c:"Terror 80s",e:"👻",p:7490,s:8,t:["M"]},
+{n:"Drama en Blanco y Negro",c:"Series de Drama",e:"🎭",p:6490,s:20,t:["S","M","L"]},
+{n:"Detective Nocturno",c:"Series de Drama",e:"🕵️",p:6990,s:0,t:["L"]},
+{n:"Dibujos de los Sábados",c:"Animación",e:"🐭",p:5990,s:40,t:["S","M","L"]},
+{n:"Aventura Animada",c:"Animación",e:"🦄",p:5990,s:12,t:["S","M"]}];
+const $=id=>document.getElementById(id),cat=$("cat"),q=$("q"),L=$("lista");
+[...new Set(P.map(x=>x.c))].forEach(c=>cat.add(new Option(c,c)));
+function pintar(){
+ const f=P.filter(x=>(!cat.value||x.c===cat.value)&&x.n.toLowerCase().includes(q.value.toLowerCase()));
+ L.innerHTML=f.length?f.map(x=>`<article class="card"><div class="foto" aria-hidden="true">${x.e}</div><h3>${x.n}</h3><span class="tag">${x.c}</span><p class="price">$${x.p.toLocaleString("es-CL")}</p><p>Tallas: ${x.t.join(", ")}<br>${x.s?"Stock: "+x.s:"<strong>Agotado</strong>"}</p></article>`).join(""):"<p>No hay calcetines que coincidan. Prueba con otra colección.</p>";}
+cat.onchange=q.oninput=pintar;pintar();
+</script>
+<footer>Sockbuster Video &amp; Socks · Modelamiento de Soluciones Informáticas · [NOMBRE(S) DEL/LOS ESTUDIANTE(S)]</footer></body></html>

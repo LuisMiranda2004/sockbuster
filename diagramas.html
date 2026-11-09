@@ -1,0 +1,99 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="style.css"><link href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@400;800&display=swap" rel="stylesheet"><title>Arquitectura UML | Sockbuster</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script></head><body>
+<header><a class="logo" href="index.html">SOCKBUSTER</a><nav><a  href="index.html">Inicio</a><a  href="catalogo.html">Catálogo</a><a class="on" href="diagramas.html">Arquitectura UML</a></nav></header>
+<main><h1>Arquitectura UML (4+1)</h1>
+<p>Documentación técnica de Sockbuster organizada según el Paradigma 4+1 de Kruchten.</p>
+
+<section class="view"><h2>Vista Lógica</h2>
+<p>Muestra las clases del dominio y sus relaciones: catálogo, carrito, pedidos y reseñas (RF01–RF04).</p>
+<pre class="mermaid">
+classDiagram
+class Usuario{+id +nombre +email +rol}
+class Calcetin{+id +nombre +precio +stock +tallas}
+class Coleccion{+id +nombre +pelicula}
+class Carrito{+agregar() +cambiarCantidad() +checkout()}
+class Pedido{+idUnico +fecha +total}
+class Resena{+estrellas +comentario}
+Coleccion "1" --> "*" Calcetin
+Usuario "1" --> "1" Carrito
+Carrito "1" --> "*" Calcetin
+Carrito ..> Pedido : genera
+Usuario "1" --> "*" Pedido
+Usuario "1" --> "*" Resena
+Calcetin "1" --> "*" Resena
+</pre></section>
+
+<section class="view"><h2>Vista de Desarrollo</h2>
+<p>Organización del código en capas y módulos (frontend, API REST, servicios y acceso a datos).</p>
+<pre class="mermaid">
+flowchart TB
+subgraph Frontend
+A[Catalogo UI]:::c --- B[Carrito UI]:::c --- C[Panel Admin UI]:::c
+end
+subgraph Backend API REST
+D[Auth JWT]:::c
+E[Servicio Catalogo]:::c
+F[Servicio Pedidos]:::c
+G[Servicio Resenas]:::c
+end
+subgraph Datos
+H[(Repositorio / BD)]:::c
+end
+A --> E
+B --> F
+C --> D
+C --> E
+A --> G
+E --> H
+F --> H
+G --> H
+D --> H
+classDef c fill:#ffd23f,stroke:#1b1f3b,color:#1b1f3b
+</pre></section>
+
+<section class="view"><h2>Vista de Procesos</h2>
+<p>Flujo dinámico del proceso de compra (RF02): del carrito al pedido confirmado.</p>
+<pre class="mermaid">
+sequenceDiagram
+actor Cliente
+participant UI as Interfaz Web
+participant API as API REST
+participant BD as Base de Datos
+Cliente->>UI: Agrega calcetines al carrito
+Cliente->>UI: Presiona Checkout
+UI->>API: POST /pedidos (HTTPS)
+API->>BD: Verifica stock
+BD-->>API: Stock OK
+API->>BD: Guarda pedido y descuenta stock
+API-->>UI: Resumen con ID de pedido
+UI-->>Cliente: Confirmación del pedido
+</pre></section>
+
+<section class="view"><h2>Vista Física (Despliegue)</h2>
+<p>Infraestructura donde se ejecuta el sistema (RNF01 y RNF02): todo sobre HTTPS.</p>
+<pre class="mermaid">
+flowchart LR
+N[Navegador del cliente]:::c -->|HTTPS| W[Hosting web estatico: GitHub Pages / Vercel]:::c
+W -->|HTTPS + JWT| S[Servidor API en la nube]:::c
+S --> D[(Servidor de Base de Datos)]:::c
+classDef c fill:#e84a8a,stroke:#1b1f3b,color:#fff
+</pre></section>
+
+<section class="view"><h2>Escenarios (Casos de Uso)</h2>
+<p>Casos de uso principales según el tipo de actor.</p>
+<pre class="mermaid">
+flowchart LR
+V([Visitante]):::a
+U([Usuario registrado]):::a
+A([Administrador]):::a
+V --> C1(Explorar y filtrar catalogo)
+V --> C2(Gestionar carrito)
+U --> C3(Realizar checkout)
+U --> C4(Publicar resena 1 a 5 estrellas)
+A --> C5(Registrar modelos)
+A --> C6(Actualizar stock y precios)
+classDef a fill:#ffd23f,stroke:#1b1f3b
+</pre></section>
+</main>
+<script>mermaid.initialize({startOnLoad:true,theme:"neutral"});</script>
+<footer>Sockbuster Video &amp; Socks · Modelamiento de Soluciones Informáticas · [NOMBRE(S) DEL/LOS ESTUDIANTE(S)]</footer></body></html>
